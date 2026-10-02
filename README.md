@@ -11,8 +11,18 @@ brew install libmikmod aalib
 ./configure; make; make install
 bb
 ```
-Note: `./configure` sometimes needs the path to `libmikmod` passed manually. This can be done with `--with-libmikmod-prefix=[prefix]`.
-Note: Audio may not play, this looks like a bug.
+
+Works on both Intel and Apple Silicon (ARM64) Macs. The build requires
+autoconf/automake/libtool-era tools only if regenerating; a checked-in
+`configure` script is provided, so no autotools are needed to build.
+
+Notes:
+- `./configure` usually finds `libmikmod` automatically. If it does not,
+  pass the path manually: `--with-libmikmod-prefix=$(brew --prefix libmikmod)`.
+- Audio may not play, this looks like a bug.
+- The codebase is pre-C99; the build adds `-std=gnu89
+  -Wno-implicit-function-declaration` automatically so no manual `CFLAGS`
+  are required.
 
 What does this software do then ?
 =================================
