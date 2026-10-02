@@ -23,6 +23,36 @@ Notes:
   -Wno-implicit-function-declaration` automatically so no manual `CFLAGS`
   are required.
 
+Smooth rendering (curses driver + frame sync)
+=============================================
+
+The stock aalib ships a curses driver that breaks on modern macOS
+terminals: it read the private `stdscr->_maxx` / `_maxy` fields (hard-coded
+an 80-column screen), dropped bold/dim/reverse, and emitted no frame
+synchronization — so the demo tore and flickered.
+
+This repo ships a fixed aalib under `aalib-patch/`:
+
+- `aalib-curses-fix.patch` — `getmaxyx()` for size detection, `termattrs()`
+  for bold/dim/reverse, and a per-frame **DEC private mode 2026
+  "synchronized output"** wrapper (`\e[?2026h` … `\e[?2026l`) so each frame
+  is presented atomically at the retrace instead of tearing. Terminals that
+  don't implement 2026 ignore the escape, so it's safe everywhere.
+- `build-aalib.sh` — applies the patch (plus the Homebrew aalib
+  modernization patch) to a fresh `aalib-1.4.0` source tree, configures with
+  the ncurses driver, and builds `libaa.a`.
+
+Build the fixed aalib and link bb against it:
+```
+tar xzf aalib-1.4.0.tar.gz
+./aalib-patch/build-aalib.sh aalib-1.4.0
+# link bb with:
+#   -L aalib-1.4.0/src/.libs -laa -L $(brew --prefix ncurses)/lib -lncurses
+```
+Verified: 30 test frames produced exactly 30 balanced 2026 begin/end pairs
+(one per frame), and the demo renders full-width with bold/dim/reverse and no
+tearing on a color terminal.
+
 What does this software do then ?
 =================================
 
