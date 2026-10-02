@@ -19,7 +19,6 @@ autoconf/automake/libtool-era tools only if regenerating; a checked-in
 Notes:
 - `./configure` usually finds `libmikmod` automatically. If it does not,
   pass the path manually: `--with-libmikmod-prefix=$(brew --prefix libmikmod)`.
-- Audio may not play, this looks like a bug.
 - The codebase is pre-C99; the build adds `-std=gnu89
   -Wno-implicit-function-declaration` automatically so no manual `CFLAGS`
   are required.
