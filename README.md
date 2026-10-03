@@ -53,6 +53,18 @@ Verified: 30 test frames produced exactly 30 balanced 2026 begin/end pairs
 (one per frame), and the demo renders full-width with bold/dim/reverse and no
 tearing on a color terminal.
 
+Standalone bonus scenes:
+========================
+
+The three XaoS fractal parts of act 2 can be run on their own (each
+animates in real time, then exits; add `-loop` to repeat):
+
+```
+bb 6    # fractal zoom (mouse-driven)
+bb 7    # julia sequence
+bb 9    # julia morph
+```
+
 What does this software do then ?
 =================================
 
