@@ -73,4 +73,17 @@
 +    curses_sync_end();
  }
  static void curses_gotoxy(aa_context * c, int x, int y)
+
+--- a/src/aacurkbd.c
++++ b/src/aacurkbd.c
+@@ -112,7 +112,7 @@
+     case KEY_UP:
+ 	return (AA_UP);
+     case KEY_DOWN:
+ 	return (AA_DOWN);
+-#ifdef KEY_MOUDE
++#ifdef KEY_MOUSE
+     case KEY_MOUSE:
+ #ifdef GPM_MOUSEDRIVER
+ 	if (!__curses_usegpm)
  {
